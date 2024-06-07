@@ -1,4 +1,4 @@
-# birthday_check
+# quiz
 
 A new Flutter project.
 

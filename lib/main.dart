@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(const MyApp());
 
@@ -36,12 +37,12 @@ class PresentPage extends StatelessWidget {
       ),
       body: DecoratedBox(
         decoration: BoxDecoration(
-            image: DecorationImage(
+          image: DecorationImage(
               image: AssetImage('assets/images/glitter.jpg'), fit: BoxFit.cover),
         ),
         child: Center(
           child: Image(image: AssetImage(
-            'assets/images/QR_last.png')),
+              'assets/images/QR_last.png')),
         ),
       ),
     );
@@ -71,14 +72,14 @@ class _MyCustomFormState extends State<MyCustomForm> {
         centerTitle: true,
       ),
       body: DecoratedBox(
-           decoration: BoxDecoration(
-           image: DecorationImage(
+        decoration: BoxDecoration(
+          image: DecorationImage(
               image: AssetImage('assets/images/clouds.jpeg'), fit: BoxFit.cover),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [SizedBox(width: 200, height: 40, child: TextField(
+            children: [SizedBox(width: 300, height: 40, child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -98,7 +99,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    if (value == "1234") {
+                    if (value == "95321246812357") {
                       AudioPlayer().play(AssetSource('audio/happy-birthday-jazz.mp3'));
                       return AlertDialog(
                         // Retrieve the text the that user has entered by using the
@@ -110,15 +111,15 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         actions: <Widget>[
                           TextButton(
                             onPressed: ()
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder:
+                            {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder:
                                     (context) => PresentPage()
-                                  ),
-                                );
+                                ),
+                              );
 
-                              },
+                            },
                             child: const Text('you are close..'),
                           ),
                         ],
@@ -130,8 +131,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         // Retrieve the text the that user has entered by using the
                         // TextEditingController.
                         content: Image(
-                          image: AssetImage('assets/images/oh-no-nooo.gif')
-                         ),
+                            image: AssetImage('assets/images/oh-no-nooo.gif')
+                        ),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Again'),
@@ -141,9 +142,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                           ),
                           TextButton(
                             child: const Text('Search the answer in the code'),
-                            onPressed: () {
-                            Navigator.of(context).pop();
-                          },
+                            onPressed: _launchURL,
                           ),
                         ],
                       );
@@ -157,5 +156,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
       ),
       backgroundColor: Colors.lime[200],
     );
+  }
+}
+
+_launchURL() async {
+  final Uri url = Uri.parse('https://github.com/tonyako/birthday_quiz');
+  if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
   }
 }
